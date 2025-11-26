@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Clone - Your Wishlist</title>
+  <link rel="stylesheet" href="Amazon_Clone.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <style>
+    .wishlist-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    
+    .wishlist-header {
+      background-color: #0f1111;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .wishlist-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .wishlist-item {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      min-height: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .wishlist-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .wishlist-item-img {
+      width: 100%;
+      height: 200px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin-bottom: 15px;
+      border-radius: 4px;
+      flex-grow: 1;
+    }
+    
+    .wishlist-item h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #0f1111;
+      flex-shrink: 0;
+    }
+    
+    .wishlist-item p {
+      color: #b12704;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      flex-shrink: 0;
+    }
+    
+    .wishlist-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+    }
+    
+    .wishlist-actions button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    .add-to-cart-btn {
+      background-color: #ffd814;
+      color: #0f1111;
+    }
+    
+    .remove-wishlist-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+    
+    .empty-wishlist {
+      text-align: center;
+      padding: 50px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .empty-wishlist i {
+      font-size: 64px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+    
+    .empty-wishlist h2 {
+      margin-bottom: 20px;
+    }
+    
+    .empty-wishlist p {
+      margin-bottom: 30px;
+      color: #666;
+    }
+    
+    .continue-shopping-btn {
+      background-color: #ffd814;
+      color: #0f1111;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header (copy from index.html) -->
+  <header>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-logo border">
+        <div class="logo" aria-label="Amazon Logo"></div>
+      </div>
+
+      <div class="nav-address border">
+        <p class="add-first">Deliver to</p>
+        <div class="add-icon">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          <p class="add-sec">India</p>
+        </div>
+      </div>
+
+      <form class="nav-search" role="search">
+        <select class="search-select" aria-label="Select Category">
+          <option>All</option>
+        </select>
+        <input type="text" placeholder="Search Amazon" class="search-input" aria-label="Search Amazon">
+        <button class="search-icon" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div class="nav-signin border">
+        <p><span>Hello, sign in</span></p>
+        <p class="nav-second">Account & Lists</p>
+      </div>
+
+      <div class="nav-return border">
+        <p><span>Returns</span></p>
+        <p class="nav-second">& Orders</p>
+      </div>
+
+      <button class="nav-cart border" aria-label="Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Cart
+      </button>
+    </nav>
+
+    <!-- Panel / Categories -->
+    <nav class="panel">
+      <button class="panel-all">
+        <i class="fa-solid fa-bars"></i> All
+      </button>
+      <ul class="panel-ops">
+        <li class="border">Today's Deals</li>
+        <li class="border">Customer Service</li>
+        <li class="border">Registry</li>
+        <li class="border">Gift Cards</li>
+        <li class="border">Sell</li>
+      </ul>
+      <div class="panel-deals border">Shop deals in Electronics</div>
+    </nav>
+    <!-- navbar + panel -->
+  </header>
+
+  <main class="wishlist-container">
+    <div class="wishlist-header">
+      <h1>Your Wishlist</h1>
+      <div id="wishlist-count">0 items</div>
+    </div>
+    
+    <div id="wishlist-content">
+      <!-- Wishlist items will be loaded here -->
+    </div>
+  </main>
+
+  <!-- Footer (copy from index.html) -->
+  <footer>
+    <div class="foot-panel1">Back to Top</div>
+
+    <div class="foot-panel2">
+      <ul>
+        <p>Get to Know Us</p>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">About Amazon</a></li>
+        <li><a href="#">Investor Relations</a></li>
+        <li><a href="#">Amazon Devices</a></li>
+        <li><a href="#">Amazon Science</a></li>
+      </ul>
+
+      <ul>
+        <p>Make Money with Us</p>
+        <li><a href="#">Sell products on Amazon</a></li>
+        <li><a href="#">Sell on Amazon Business</a></li>
+        <li><a href="#">Sell apps on Amazon</a></li>
+        <li><a href="#">Become an Affiliate</a></li>
+        <li><a href="#">Advertise Your Products</a></li>
+        <li><a href="#">Self-Publish with Us</a></li>
+        <li><a href="#">Host an Amazon Hub</a></li>
+        <li><a href="#">See More Make Money with Us</a></li>
+      </ul>
+
+      <ul>
+        <p>Amazon Payment Products</p>
+        <li><a href="#">Amazon Business Card</a></li>
+        <li><a href="#">Shop with Points</a></li>
+        <li><a href="#">Reload Your Balance</a></li>
+        <li><a href="#">Amazon Currency Converter</a></li>
+      </ul>
+
+      <ul>
+        <p>Let Us Help You</p>
+        <li><a href="#">Amazon and COVID-19</a></li>
+        <li><a href="#">Your Account</a></li>
+        <li><a href="#">Your Orders</a></li>
+        <li><a href="#">Shipping Rates & Policies</a></li>
+        <li><a href="#">Returns & Replacements</a></li>
+        <li><a href="#">Manage Your Content and Devices</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+
+    <div class="foot-panel3">
+      <div class="logo" aria-label="Amazon Logo"></div>
+    </div>
+
+    <div class="foot-panel4">
+      <div class="pages">
+        <a href="#">Conditions of Use</a>
+        <a href="#">Privacy Notice</a>
+        <a href="#">Consumer Health Data Privacy Disclosure</a>
+        <a href="#">Your Ads Privacy Choices</a>
+      </div>
+      <div class="copyright">
+        © 1996-2025, Amazon.com, Inc. or its affiliates
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { getWishlist, removeFromWishlist, addToCart } from './api.js';
+    
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Redirect to login page
+      window.location.href = 'login.html';
+    }
+    
+    // Load wishlist on page load
+    document.addEventListener('DOMContentLoaded', loadWishlist);
+    
+    async function loadWishlist() {
+      try {
+        const wishlist = await getWishlist();
+        displayWishlist(wishlist);
+      } catch (error) {
+        console.error('Failed to load wishlist:', error);
+        document.getElementById('wishlist-content').innerHTML = '<p>Error loading wishlist. Please try again.</p>';
+      }
+    }
+    
+    function displayWishlist(wishlist) {
+      const container = document.getElementById('wishlist-content');
+      const countElement = document.getElementById('wishlist-count');
+      
+      // Update wishlist count
+      const itemCount = wishlist.items ? wishlist.items.length : 0;
+      countElement.textContent = `${itemCount} ${itemCount === 1 ? 'item' : 'items'}`;
+      
+      if (!wishlist.items || wishlist.items.length === 0) {
+        container.innerHTML = `
+          <div class="empty-wishlist">
+            <i class="fas fa-heart"></i>
+            <h2>Your Amazon Wishlist is empty</h2>
+            <p>Discover new products and add them to your wishlist.</p>
+            <button class="continue-shopping-btn" onclick="window.location.href='Amazon_Clone.html'">Continue Shopping</button>
+          </div>
+        `;
+        return;
+      }
+      
+      let wishlistHTML = '<div class="wishlist-items">';
+      
+      wishlist.items.forEach(item => {
+        const product = item.productId;
+        wishlistHTML += `
+          <div class="wishlist-item" data-product-id="${product._id}">
+            <div class="wishlist-item-img" style="background-image: url('${product.imageUrl}')"></div>
+            <h3>${product.name}</h3>
+            <p>Price: $${product.price}</p>
+            <div class="wishlist-actions">
+              <button class="add-to-cart-btn" onclick="addToCartFromWishlist('${product._id}')">Add to Cart</button>
+              <button class="remove-wishlist-btn" onclick="removeFromWishlistUI('${product._id}')"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        `;
+      });
+      
+      wishlistHTML += '</div>';
+      container.innerHTML = wishlistHTML;
+    }
+    
+    async function removeFromWishlistUI(productId) {
+      try {
+        await removeFromWishlist(productId);
+        // Reload wishlist
+        loadWishlist();
+      } catch (error) {
+        console.error('Failed to remove from wishlist:', error);
+        alert('Failed to remove item from wishlist. Please try again.');
+      }
+    }
+    
+    async function addToCartFromWishlist(productId) {
+      try {
+        await addToCart(productId, 1);
+        alert('Product added to cart!');
+      } catch (error) {
+        console.error('Failed to add to cart:', error);
+        alert('Failed to add product to cart. Please try again.');
+      }
+    }
+    
+    // Make functions available globally
+    window.removeFromWishlistUI = removeFromWishlistUI;
+    window.addToCartFromWishlist = addToCartFromWishlist;
+  </script>
+
+  <!-- Include the navbar functionality script -->
+  <script type="module" src="navbar.js"></script>
+</body>
+</html>

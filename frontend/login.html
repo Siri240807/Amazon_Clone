@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Amazon Clone</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="Amazon_Clone.css">
+  <style>
+    .container {
+      display: flex;
+      max-width: 900px;
+      margin: 50px auto;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .login-container, .register-container {
+      flex: 1;
+      padding: 30px;
+    }
+    
+    .login-container {
+      border-right: 1px solid #ddd;
+    }
+    
+    .form-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .form-header .logo {
+      width: 100px;
+      height: 50px;
+      background-image: url("images/AmazonLogoFinal.jpg");
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0 auto 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .btn {
+      width: 100%;
+      background-color: #ff9900;
+      color: #0f1111;
+      border: none;
+      padding: 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    
+    .btn:hover {
+      background-color: #e68a00;
+    }
+    
+    .btn-secondary {
+      background-color: #0f1111;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #333;
+    }
+    
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .form-footer a {
+      color: #0066c0;
+      text-decoration: none;
+    }
+    
+    .form-footer a:hover {
+      color: #c45500;
+      text-decoration: underline;
+    }
+    
+    .divider {
+      text-align: center;
+      margin: 20px 0;
+      position: relative;
+      color: #777;
+    }
+    
+    .divider::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: #ddd;
+      z-index: 1;
+    }
+    
+    .divider span {
+      position: relative;
+      background-color: white;
+      padding: 0 10px;
+      z-index: 2;
+    }
+    
+    .toggle-form {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .toggle-form a {
+      color: #0066c0;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    
+    .toggle-form a:hover {
+      color: #c45500;
+      text-decoration: underline;
+    }
+    
+    .error-message {
+      color: #cc0000;
+      font-size: 14px;
+      margin-top: 5px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Login Form -->
+    <div class="login-container" id="login-section">
+      <div class="form-header">
+        <div class="logo"></div>
+        <h1>Sign in</h1>
+      </div>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required>
+          <div class="error-message" id="login-email-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required>
+          <div class="error-message" id="login-password-error"></div>
+        </div>
+        
+        <button type="submit" class="btn">Continue</button>
+      </form>
+      
+      <div class="divider">
+        <span>New to Amazon?</span>
+      </div>
+      
+      <button id="show-register-btn" class="btn btn-secondary">Create your Amazon account</button>
+      
+      <div class="form-footer">
+        <p>By continuing, you agree to Amazon's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
+      </div>
+    </div>
+    
+    <!-- Registration Form -->
+    <div class="register-container" id="register-section" style="display: none;">
+      <div class="form-header">
+        <div class="logo"></div>
+        <h1>Create account</h1>
+      </div>
+      
+      <form id="register-form">
+        <div class="form-group">
+          <label for="first-name">First Name</label>
+          <input type="text" id="first-name" required>
+          <div class="error-message" id="first-name-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="last-name">Last Name</label>
+          <input type="text" id="last-name" required>
+          <div class="error-message" id="last-name-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" required>
+          <div class="error-message" id="register-email-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" required>
+          <div class="error-message" id="register-password-error"></div>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirm-password">Re-enter password</label>
+          <input type="password" id="confirm-password" required>
+          <div class="error-message" id="confirm-password-error"></div>
+        </div>
+        
+        <button type="submit" class="btn">Create your Amazon account</button>
+      </form>
+      
+      <div class="divider">
+        <span>Already have an account?</span>
+      </div>
+      
+      <button id="show-login-btn" class="btn btn-secondary">Sign in</button>
+      
+      <div class="form-footer">
+        <p>By creating an account, you agree to Amazon's <a href="#">Conditions of Use</a> and <a href="#">Privacy Notice</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Toggle between login and registration forms
+    document.getElementById('show-register-btn').addEventListener('click', function() {
+      document.getElementById('login-section').style.display = 'none';
+      document.getElementById('register-section').style.display = 'block';
+    });
+    
+    document.getElementById('show-login-btn').addEventListener('click', function() {
+      document.getElementById('register-section').style.display = 'none';
+      document.getElementById('login-section').style.display = 'block';
+    });
+    
+    // Handle login form submission
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Clear previous errors
+      document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+      
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      
+      try {
+        // Call the login API
+        const response = await fetch('http://localhost:5000/api/users/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Store the token in localStorage
+          localStorage.setItem('token', data.token);
+          
+          // Check if user is admin
+          if (data.user.role === 'admin') {
+            alert(`Welcome back, Admin!`);
+            // Redirect to admin dashboard
+            window.location.href = 'admin.html';
+          } else {
+            alert(`Welcome back, ${data.user.firstName}!`);
+            // Redirect to home page
+            window.location.href = 'Amazon_Clone.html';
+          }
+        } else {
+          const errorData = await response.json();
+          alert(`Login failed: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        alert('Login failed. Please try again.');
+      }
+    });
+    
+    // Handle registration form submission
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Clear previous errors
+      document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+      
+      const firstName = document.getElementById('first-name').value;
+      const lastName = document.getElementById('last-name').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      
+      // Validate form
+      let isValid = true;
+      
+      if (!firstName) {
+        document.getElementById('first-name-error').textContent = 'Enter your first name';
+        document.getElementById('first-name-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      if (!lastName) {
+        document.getElementById('last-name-error').textContent = 'Enter your last name';
+        document.getElementById('last-name-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      if (!email) {
+        document.getElementById('register-email-error').textContent = 'Enter your email';
+        document.getElementById('register-email-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      if (!password) {
+        document.getElementById('register-password-error').textContent = 'Enter your password';
+        document.getElementById('register-password-error').style.display = 'block';
+        isValid = false;
+      } else if (password.length < 6) {
+        document.getElementById('register-password-error').textContent = 'Password must be at least 6 characters';
+        document.getElementById('register-password-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      if (password !== confirmPassword) {
+        document.getElementById('confirm-password-error').textContent = 'Passwords must match';
+        document.getElementById('confirm-password-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      if (!isValid) {
+        return;
+      }
+      
+      try {
+        // Call the create user API
+        const response = await fetch('http://localhost:5000/api/users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            username: email.split('@')[0],
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName
+          })
+        });
+        
+        if (response.ok) {
+          // After creating account, log the user in
+          const loginResponse = await fetch('http://localhost:5000/api/users/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+          });
+          
+          if (loginResponse.ok) {
+            const loginData = await loginResponse.json();
+            
+            // Store the token in localStorage
+            localStorage.setItem('token', loginData.token);
+            
+            alert(`Account created successfully! Welcome, ${loginData.user.firstName}!`);
+            // Redirect to home page
+            window.location.href = 'Amazon_Clone.html';
+          } else {
+            const errorData = await loginResponse.json();
+            alert(`Login failed after account creation: ${errorData.message}`);
+          }
+        } else {
+          const errorData = await response.json();
+          alert(`Account creation failed: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Account creation error:', error);
+        alert('Account creation failed. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Profile Redirect</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    
+    .btn {
+      background-color: #ff9900;
+      color: #0f1111;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 10px;
+    }
+    
+    .btn:hover {
+      background-color: #e68a00;
+    }
+  </style>
+</head>
+<body>
+  <h1>Test Profile Redirect</h1>
+  <p>Click the button below to test the new profile system:</p>
+  
+  <button id="test-btn" class="btn">Test Profile Redirect</button>
+  
+  <div id="status" style="margin-top: 20px; padding: 10px;"></div>
+
+  <script>
+    document.getElementById('test-btn').addEventListener('click', function() {
+      const statusDiv = document.getElementById('status');
+      
+      // Check if user is logged in
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      
+      if (isLoggedIn) {
+        statusDiv.innerHTML = 'User is logged in. Redirecting to profile.html...';
+        statusDiv.style.backgroundColor = '#d4edda';
+        statusDiv.style.color = '#155724';
+        
+        // Redirect to profile page after a short delay
+        setTimeout(() => {
+          window.location.href = 'profile.html';
+        }, 1000);
+      } else {
+        statusDiv.innerHTML = 'User is not logged in. Redirecting to login.html...';
+        statusDiv.style.backgroundColor = '#f8d7da';
+        statusDiv.style.color = '#721c24';
+        
+        // Redirect to login page after a short delay
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 1000);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Sign In</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="Amazon_Clone.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    
+    .debug-info {
+      background-color: #f0f0f0;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    
+    .btn {
+      background-color: #ff9900;
+      color: #0f1111;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Debug Sign In Element</h1>
+  
+  <div class="debug-info">
+    <h3>Sign In Element Status:</h3>
+    <p id="signin-status">Checking...</p>
+  </div>
+  
+  <div class="debug-info">
+    <h3>Event Listeners:</h3>
+    <p id="event-listeners">Checking...</p>
+  </div>
+  
+  <div class="debug-info">
+    <h3>Test Actions:</h3>
+    <button id="check-element" class="btn">Check Element</button>
+    <button id="simulate-click" class="btn">Simulate Click</button>
+  </div>
+  
+  <div class="debug-info">
+    <h3>Console Output:</h3>
+    <pre id="console-output" style="background: #000; color: #00ff00; padding: 10px; height: 200px; overflow: auto;"></pre>
+  </div>
+
+  <script>
+    // Capture console output
+    const originalLog = console.log;
+    const consoleOutput = document.getElementById('console-output');
+    
+    console.log = function(...args) {
+      originalLog.apply(console, args);
+      consoleOutput.textContent += args.join(' ') + '\n';
+      consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    };
+    
+    // Check sign in element
+    function checkSignInElement() {
+      const signInElement = document.querySelector('.nav-signin');
+      const status = document.getElementById('signin-status');
+      
+      if (signInElement) {
+        status.innerHTML = `
+          <strong>Element found!</strong><br>
+          Tag: ${signInElement.tagName}<br>
+          Class: ${signInElement.className}<br>
+          ID: ${signInElement.id || 'None'}<br>
+          Has click listeners: ${signInElement.onclick ? 'Yes' : 'No'}
+        `;
+        
+        // Check for event listeners
+        checkEventListeners(signInElement);
+      } else {
+        status.innerHTML = '<strong>Element NOT found!</strong>';
+      }
+    }
+    
+    function checkEventListeners(element) {
+      const listenersInfo = document.getElementById('event-listeners');
+      listenersInfo.innerHTML = 'Event listener information is not directly accessible in this browser.';
+    }
+    
+    // Simulate click
+    function simulateClick() {
+      const signInElement = document.querySelector('.nav-signin');
+      if (signInElement) {
+        console.log('Simulating click on sign in element...');
+        signInElement.click();
+      } else {
+        console.log('Sign in element not found!');
+      }
+    }
+    
+    // Set up the navigation bar for testing
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create a simple nav bar for testing
+      document.body.insertAdjacentHTML('afterbegin', `
+        <nav class="navbar" style="background-color: #0f1111; color: white; padding: 10px; margin-bottom: 20px;">
+          <div class="nav-signin border" style="cursor: pointer; padding: 10px; border: 1px solid white;">
+            <p><span>Hello, sign in</span></p>
+            <p class="nav-second">Account & Lists</p>
+          </div>
+        </nav>
+      `);
+      
+      // Check element after a short delay
+      setTimeout(checkSignInElement, 100);
+      
+      // Set up button handlers
+      document.getElementById('check-element').addEventListener('click', checkSignInElement);
+      document.getElementById('simulate-click').addEventListener('click', simulateClick);
+    });
+  </script>
+</body>
+</html>

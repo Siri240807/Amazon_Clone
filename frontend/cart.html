@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Clone - Shopping Cart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="Amazon_Clone.css">
+  <style>
+    .cart-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #eaeded;
+      min-height: 100vh;
+    }
+    
+    .cart-header {
+      background-color: #0f1111;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .cart-content {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 20px;
+    }
+    
+    .cart-items {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .cart-summary {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+    
+    .cart-title {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #0f1111;
+    }
+    
+    .cart-item {
+      display: grid;
+      grid-template-columns: 120px 1fr 150px 100px 100px;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid #eee;
+      align-items: center;
+    }
+    
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    
+    .item-image {
+      width: 100%;
+      height: 120px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 4px;
+    }
+    
+    .item-details h3 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+      color: #0f1111;
+    }
+    
+    .item-details p {
+      margin: 5px 0;
+      color: #555;
+      font-size: 14px;
+    }
+    
+    .item-price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0f1111;
+      text-align: center;
+    }
+    
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .quantity-btn:hover {
+      background-color: #e6e6e6;
+    }
+    
+    .quantity-input {
+      width: 40px;
+      height: 30px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .item-total {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0f1111;
+      text-align: center;
+    }
+    
+    .remove-btn {
+      background: none;
+      border: none;
+      color: #007185;
+      cursor: pointer;
+      font-size: 14px;
+      text-align: center;
+      width: 100%;
+    }
+    
+    .remove-btn:hover {
+      color: #c45500;
+      text-decoration: underline;
+    }
+    
+    .cart-summary-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #0f1111;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    
+    .summary-total {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px 0;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+    
+    .checkout-btn {
+      width: 100%;
+      background-color: #ff9900;
+      color: #0f1111;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    
+    .checkout-btn:hover {
+      background-color: #e68a00;
+    }
+    
+    .continue-shopping-btn {
+      width: 100%;
+      background-color: #0f1111;
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .continue-shopping-btn:hover {
+      background-color: #333;
+    }
+    
+    .empty-cart {
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    .empty-cart i {
+      font-size: 60px;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+    
+    .empty-cart h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #0f1111;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+    }
+    
+    .nav-link:hover {
+      background-color: #333;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    @media (max-width: 768px) {
+      .cart-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .cart-item {
+        grid-template-columns: 80px 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header (same as index.html) -->
+  <header>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-logo border">
+        <div class="logo" aria-label="Amazon Logo"></div>
+      </div>
+
+      <div class="nav-address border">
+        <p class="add-first">Deliver to</p>
+        <div class="add-icon">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          <p class="add-sec">India</p>
+        </div>
+      </div>
+
+      <form class="nav-search" role="search">
+        <select class="search-select" aria-label="Select Category">
+          <option>All</option>
+        </select>
+        <input type="text" placeholder="Search Amazon" class="search-input" aria-label="Search Amazon">
+        <button class="search-icon" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div class="nav-signin border">
+        <p><span>Hello, sign in</span></p>
+        <p class="nav-second">Account & Lists</p>
+      </div>
+
+      <div class="nav-return border">
+        <p><span>Returns</span></p>
+        <p class="nav-second">& Orders</p>
+      </div>
+
+      <button class="nav-cart border" aria-label="Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Cart
+      </button>
+    </nav>
+
+    <!-- Panel / Categories -->
+    <nav class="panel">
+      <button class="panel-all">
+        <i class="fa-solid fa-bars"></i> All
+      </button>
+      <ul class="panel-ops">
+        <li class="border">Today's Deals</li>
+        <li class="border">Customer Service</li>
+        <li class="border">Registry</li>
+        <li class="border">Gift Cards</li>
+        <li class="border">Sell</li>
+      </ul>
+      <div class="panel-deals border">Shop deals in Electronics</div>
+    </nav>
+    <!-- Include your navbar and panel exactly like in index.html -->
+    <!-- Copy the entire header section from index.html -->
+  </header>
+
+  <div class="cart-container">
+    <div class="cart-header">
+      <h1><i class="fas fa-shopping-cart"></i> Shopping Cart</h1>
+      <div>
+        <a href="Amazon_Clone.html" class="nav-link"><i class="fas fa-home"></i> Continue Shopping</a>
+      </div>
+    </div>
+    
+    <div class="cart-content">
+      <div class="cart-items">
+        <h2 class="cart-title">Your Items</h2>
+        <div id="cart-items-container">
+          <!-- Cart items will be loaded here dynamically -->
+        </div>
+      </div>
+      
+      <div class="cart-summary">
+        <h3 class="cart-summary-title">Order Summary</h3>
+        <div class="summary-row">
+          <span>Subtotal:</span>
+          <span id="subtotal">$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span>Shipping:</span>
+          <span id="shipping">FREE</span>
+        </div>
+        <div class="summary-row">
+          <span>Tax:</span>
+          <span id="tax">$0.00</span>
+        </div>
+        <div class="summary-row summary-total">
+          <span>Total:</span>
+          <span id="total">$0.00</span>
+        </div>
+        <button class="checkout-btn">Proceed to Checkout</button>
+        <button class="continue-shopping-btn" onclick="window.location.href='Amazon_Clone.html'">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include the navbar functionality script -->
+  <script type="module" src="navbar.js"></script>
+  
+  <script>
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Redirect to login page
+      window.location.href = 'login.html';
+    }
+    
+    // Cart data will be fetched from the API
+    let cart = null;
+    
+    // Fetch cart from API
+    async function fetchCart() {
+      try {
+        const response = await fetch('http://localhost:5000/api/cart', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          cart = await response.json();
+          renderCart();
+        } else {
+          console.error('Failed to fetch cart');
+          // Handle error - maybe redirect to login if token is invalid
+        }
+      } catch (error) {
+        console.error('Error fetching cart:', error);
+      }
+    }
+    
+    // Render cart items
+    function renderCart() {
+      const container = document.getElementById('cart-items-container');
+      
+      if (!cart || !cart.items || cart.items.length === 0) {
+        container.innerHTML = `
+          <div class="empty-cart">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>Your Amazon Cart is empty</h2>
+            <p>You have no items in your cart. Continue shopping to add items to your cart.</p>
+            <button class="continue-shopping-btn" onclick="window.location.href='Amazon_Clone.html'">Continue Shopping</button>
+          </div>
+        `;
+        updateSummary();
+        return;
+      }
+      
+      let cartHTML = '';
+      
+      cart.items.forEach((item, index) => {
+        const itemTotal = (item.price * item.quantity).toFixed(2);
+        cartHTML += `
+          <div class="cart-item" data-product-id="${item.productId._id}">
+            <div class="item-image" style="background-image: url('${item.productId.img || 'images/default-product.jpg'}');"></div>
+            <div class="item-details">
+              <h3>${item.productId.name}</h3>
+              <p>In stock</p>
+              <p>Eligible for FREE Shipping</p>
+              <button class="remove-btn" onclick="removeItem('${item.productId._id}')"><i class="fas fa-trash"></i> Delete</button>
+            </div>
+            <div class="item-price">$${item.price}</div>
+            <div class="quantity-controls">
+              <button class="quantity-btn decrease-btn" onclick="updateQuantity('${item.productId._id}', -1)">-</button>
+              <input type="number" class="quantity-input" value="${item.quantity}" min="1" onchange="updateQuantity('${item.productId._id}', 0, this.value)">
+              <button class="quantity-btn increase-btn" onclick="updateQuantity('${item.productId._id}', 1)">+</button>
+            </div>
+            <div class="item-total">$${itemTotal}</div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = cartHTML;
+      updateSummary();
+    }
+    
+    // Update item quantity
+    async function updateQuantity(productId, change, newValue = null) {
+      try {
+        let quantity;
+        if (newValue !== null) {
+          // Direct input change
+          quantity = parseInt(newValue) || 1;
+        } else {
+          // Find current quantity and adjust
+          const item = cart.items.find(item => item.productId._id === productId);
+          if (item) {
+            quantity = Math.max(1, item.quantity + change);
+          } else {
+            quantity = 1;
+          }
+        }
+        
+        // Update via API
+        const response = await fetch('http://localhost:5000/api/cart/update', {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ productId, quantity })
+        });
+        
+        if (response.ok) {
+          cart = await response.json();
+          renderCart();
+        } else {
+          console.error('Failed to update cart item');
+        }
+      } catch (error) {
+        console.error('Error updating cart item:', error);
+      }
+    }
+    
+    // Remove item from cart
+    async function removeItem(productId) {
+      if (confirm('Are you sure you want to remove this item from your cart?')) {
+        try {
+          const response = await fetch('http://localhost:5000/api/cart/remove', {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId })
+          });
+          
+          if (response.ok) {
+            cart = await response.json();
+            renderCart();
+          } else {
+            console.error('Failed to remove item from cart');
+          }
+        } catch (error) {
+          console.error('Error removing item from cart:', error);
+        }
+      }
+    }
+    
+    // Update order summary
+    function updateSummary() {
+      if (!cart) {
+        document.getElementById('subtotal').textContent = '$0.00';
+        document.getElementById('tax').textContent = '$0.00';
+        document.getElementById('total').textContent = '$0.00';
+        return;
+      }
+      
+      const subtotal = cart.totalPrice || 0;
+      const tax = subtotal * 0.08; // 8% tax
+      const total = subtotal + tax;
+      
+      document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+      document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+    }
+    
+    // Handle checkout
+    document.querySelector('.checkout-btn').addEventListener('click', async function() {
+      if (!cart || !cart.items || cart.items.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+      
+      // Load user's addresses
+      try {
+        const response = await fetch('http://localhost:5000/api/addresses', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        let addresses = [];
+        if (response.ok) {
+          addresses = await response.json();
+        }
+        
+        // Create address selection HTML
+        let addressOptions = '';
+        if (addresses && addresses.length > 0) {
+          addressOptions = '<option value="">Select a saved address</option>';
+          addresses.forEach(address => {
+            addressOptions += `<option value="${address._id}">${address.name} - ${address.street}, ${address.city}</option>`;
+          });
+          addressOptions += '<option value="new">Add a new address</option>';
+        }
+        
+        // Show address form for checkout
+        const addressForm = `
+          <div id="checkout-address-form" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000; max-width: 500px; width: 90%;">
+            <h3>Shipping Address</h3>
+            ${addresses && addresses.length > 0 ? `
+              <div class="form-group">
+                <label for="saved-address">Select Address</label>
+                <select id="saved-address" class="form-control">
+                  ${addressOptions}
+                </select>
+              </div>
+              <div id="new-address-form" style="display: none;">
+            ` : '<div id="new-address-form">'}
+              <div class="form-group">
+                <label for="checkout-name">Address Name</label>
+                <select id="checkout-name" class="form-control">
+                  <option value="Home">Home</option>
+                  <option value="Work">Work</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="checkout-street">Street Address</label>
+                <input type="text" id="checkout-street" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="checkout-city">City</label>
+                <input type="text" id="checkout-city" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="checkout-state">State</label>
+                <input type="text" id="checkout-state" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="checkout-zipCode">ZIP Code</label>
+                <input type="text" id="checkout-zipCode" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="checkout-country">Country</label>
+                <input type="text" id="checkout-country" class="form-control" value="India" required>
+              </div>
+            </div>
+            <div style="margin-top: 20px;">
+              <button id="confirm-checkout-btn" class="btn" style="margin-right: 10px;">Confirm Order</button>
+              <button id="cancel-checkout-btn" class="btn btn-secondary">Cancel</button>
+            </div>
+          </div>
+          <div id="checkout-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', addressForm);
+        
+        // Handle saved address selection
+        const savedAddressSelect = document.getElementById('saved-address');
+        if (savedAddressSelect) {
+          savedAddressSelect.addEventListener('change', function() {
+            const newAddressForm = document.getElementById('new-address-form');
+            if (this.value === 'new' || this.value === '') {
+              newAddressForm.style.display = 'block';
+            } else {
+              newAddressForm.style.display = 'none';
+              
+              // Pre-fill form with selected address data
+              const selectedAddress = addresses.find(addr => addr._id === this.value);
+              if (selectedAddress) {
+                document.getElementById('checkout-name').value = selectedAddress.name;
+                document.getElementById('checkout-street').value = selectedAddress.street;
+                document.getElementById('checkout-city').value = selectedAddress.city;
+                document.getElementById('checkout-state').value = selectedAddress.state;
+                document.getElementById('checkout-zipCode').value = selectedAddress.zipCode;
+                document.getElementById('checkout-country').value = selectedAddress.country;
+              }
+            }
+          });
+        }
+        
+        // Add event listeners for checkout buttons
+        document.getElementById('confirm-checkout-btn').addEventListener('click', async function() {
+          let name, street, city, state, zipCode, country;
+          
+          // Check if using saved address
+          const savedAddressSelect = document.getElementById('saved-address');
+          if (savedAddressSelect && savedAddressSelect.value && savedAddressSelect.value !== 'new') {
+            // Use selected saved address
+            const selectedAddress = addresses.find(addr => addr._id === savedAddressSelect.value);
+            if (selectedAddress) {
+              name = selectedAddress.name;
+              street = selectedAddress.street;
+              city = selectedAddress.city;
+              state = selectedAddress.state;
+              zipCode = selectedAddress.zipCode;
+              country = selectedAddress.country;
+            }
+          } else {
+            // Use new address form data
+            name = document.getElementById('checkout-name').value;
+            street = document.getElementById('checkout-street').value;
+            city = document.getElementById('checkout-city').value;
+            state = document.getElementById('checkout-state').value;
+            zipCode = document.getElementById('checkout-zipCode').value;
+            country = document.getElementById('checkout-country').value;
+          }
+          
+          // Validate form
+          if (!name || !street || !city || !state || !zipCode || !country) {
+            alert('Please fill in all required fields.');
+            return;
+          }
+          
+          try {
+            const response = await fetch('http://localhost:5000/api/orders', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                shippingAddress: {
+                  name,
+                  street,
+                  city,
+                  state,
+                  zipCode,
+                  country
+                }
+              })
+            });
+            
+            if (response.ok) {
+              const order = await response.json();
+              alert(`Order placed successfully! Order ID: ${order._id.toString().substring(0, 8)}`);
+              
+              // Remove checkout form
+              document.getElementById('checkout-address-form').remove();
+              document.getElementById('checkout-overlay').remove();
+              
+              // Refresh cart
+              fetchCart();
+            } else {
+              const errorData = await response.json();
+              alert(`Failed to place order: ${errorData.message}`);
+            }
+          } catch (error) {
+            console.error('Error placing order:', error);
+            alert('Failed to place order. Please try again.');
+          }
+        });
+        
+        // Cancel checkout
+        document.getElementById('cancel-checkout-btn').addEventListener('click', function() {
+          document.getElementById('checkout-address-form').remove();
+          document.getElementById('checkout-overlay').remove();
+        });
+      } catch (error) {
+        console.error('Error loading addresses:', error);
+        alert('Error loading addresses. Please try again.');
+      }
+    });
+    
+    // Initialize cart
+    fetchCart();
+  </script>
+</body>
+</html>

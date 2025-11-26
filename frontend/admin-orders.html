@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Management - Admin Panel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <link rel="stylesheet" href="Amazon_Clone.css">
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #e2e7e6;
+      min-height: 100vh;
+    }
+    
+    .admin-header {
+      background-color: #0f1111;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .orders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .order-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .order-id {
+      font-weight: bold;
+      color: #0f1111;
+    }
+    
+    .order-date {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .order-details {
+      margin-bottom: 15px;
+    }
+    
+    .order-detail {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+    
+    .order-status {
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 12px;
+      display: inline-block;
+      margin-bottom: 15px;
+    }
+    
+    .status-pending {
+      background-color: #ffeb3b;
+      color: #000;
+    }
+    
+    .status-processing {
+      background-color: #2196F3;
+      color: white;
+    }
+    
+    .status-shipped {
+      background-color: #ff9800;
+      color: white;
+    }
+    
+    .status-delivered {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .status-cancelled {
+      background-color: #f44336;
+      color: white;
+    }
+    
+    .order-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn {
+      background-color: #ff9900;
+      color: #0f1111;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    
+    .btn:hover {
+      background-color: #e68a00;
+    }
+    
+    .btn-secondary {
+      background-color: #0f1111;
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #333;
+    }
+    
+    .btn-small {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+    
+    .nav-link {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+    }
+    
+    .nav-link:hover {
+      background-color: #333;
+    }
+    
+    .status-form {
+      background-color: #f0f0f0;
+      padding: 15px;
+      border-radius: 4px;
+      margin-top: 15px;
+      display: none;
+    }
+    
+    .form-group {
+      margin-bottom: 10px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    .search-bar {
+      margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .search-bar input {
+      flex-grow: 1;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .search-bar button {
+      padding: 10px 20px;
+      background-color: #0f1111;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .search-bar button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1><i class="fas fa-truck"></i> Order Management</h1>
+      <div>
+        <a href="admin.html" class="nav-link"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        <a href="Amazon_Clone.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <button id="logout-btn" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+    
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search by order ID, user email, or product name...">
+      <button id="search-btn"><i class="fas fa-search"></i> Search</button>
+    </div>
+    
+    <div>
+      <h2><i class="fas fa-list"></i> All Orders</h2>
+      <div id="orders-container" class="orders-grid">
+        <!-- Orders will be loaded here dynamically -->
+        <p>Loading orders...</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Check if user is admin
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = 'login.html';
+    }
+    
+    // Decode token to get user info
+    let currentUser = null;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      currentUser = payload;
+    } catch (e) {
+      console.error('Invalid token', e);
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    }
+    
+    if (!currentUser.role || currentUser.role !== 'admin') {
+      showMessage('Access denied. Admin privileges required.', 'error');
+      setTimeout(() => {
+        window.location.href = 'Amazon_Clone.html';
+      }, 2000);
+    }
+    
+    // Handle logout
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem('token');
+      showMessage('You have been logged out successfully.', 'success');
+      setTimeout(() => {
+        window.location.href = 'Amazon_Clone.html';
+      }, 1500);
+    });
+    
+    // Load all orders
+    async function loadOrders() {
+      try {
+        const response = await fetch('http://localhost:5000/api/orders/all', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const orders = await response.json();
+          displayOrders(orders);
+        } else {
+          const errorData = await response.json();
+          showMessage(`Error loading orders: ${errorData.message}`, 'error');
+        }
+      } catch (error) {
+        console.error('Error loading orders:', error);
+        showMessage('Error loading orders. Please try again.', 'error');
+      }
+    }
+    
+    // Display orders
+    function displayOrders(orders) {
+      const container = document.getElementById('orders-container');
+      
+      if (!orders || orders.length === 0) {
+        container.innerHTML = '<p>No orders found.</p>';
+        return;
+      }
+      
+      let ordersHTML = '';
+      orders.forEach(order => {
+        const orderDate = new Date(order.orderDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+        
+        // Get first product name for display
+        const firstProduct = order.items.length > 0 ? order.items[0].productId.name : 'Unknown Product';
+        
+        ordersHTML += `
+          <div class="order-card">
+            <div class="order-header">
+              <div class="order-id">#${order._id.toString().substring(0, 8)}</div>
+              <div class="order-date">${orderDate}</div>
+            </div>
+            
+            <div class="order-details">
+              <div class="order-detail">
+                <span>User:</span>
+                <span>${order.userId}</span>
+              </div>
+              <div class="order-detail">
+                <span>Items:</span>
+                <span>${order.items.length}</span>
+              </div>
+              <div class="order-detail">
+                <span>Total:</span>
+                <span>$${order.totalPrice.toFixed(2)}</span>
+              </div>
+            </div>
+            
+            <div>
+              <span class="order-status status-${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+            </div>
+            
+            <div class="order-actions">
+              <button class="btn btn-small" onclick="viewOrder('${order._id}')">
+                <i class="fas fa-eye"></i> View
+              </button>
+              <button class="btn btn-small btn-secondary" onclick="showStatusForm('${order._id}', '${order.status}')">
+                <i class="fas fa-edit"></i> Update Status
+              </button>
+            </div>
+            
+            <div id="status-form-${order._id}" class="status-form">
+              <div class="form-group">
+                <label for="status-select-${order._id}">Update Status:</label>
+                <select id="status-select-${order._id}">
+                  <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                  <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                  <option value="shipped" ${order.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                  <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                  <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                </select>
+              </div>
+              <button class="btn btn-small" onclick="updateOrderStatus('${order._id}')">
+                <i class="fas fa-save"></i> Save
+              </button>
+              <button class="btn btn-small btn-secondary" onclick="hideStatusForm('${order._id}')">
+                <i class="fas fa-times"></i> Cancel
+              </button>
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = ordersHTML;
+    }
+    
+    // View order details
+    window.viewOrder = function(orderId) {
+      window.location.href = `order.html?id=${orderId}`;
+    };
+    
+    // Show status update form
+    window.showStatusForm = function(orderId, currentStatus) {
+      // Hide all status forms
+      document.querySelectorAll('.status-form').forEach(form => {
+        form.style.display = 'none';
+      });
+      
+      // Show the specific form
+      const form = document.getElementById(`status-form-${orderId}`);
+      if (form) {
+        form.style.display = 'block';
+      }
+    };
+    
+    // Hide status update form
+    window.hideStatusForm = function(orderId) {
+      const form = document.getElementById(`status-form-${orderId}`);
+      if (form) {
+        form.style.display = 'none';
+      }
+    };
+    
+    // Update order status
+    window.updateOrderStatus = async function(orderId) {
+      const statusSelect = document.getElementById(`status-select-${orderId}`);
+      const newStatus = statusSelect.value;
+      
+      try {
+        const response = await fetch(`http://localhost:5000/api/orders/${orderId}/status`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status: newStatus })
+        });
+        
+        if (response.ok) {
+          const updatedOrder = await response.json();
+          showMessage('Order status updated successfully!', 'success');
+          hideStatusForm(orderId);
+          loadOrders(); // Refresh the orders list
+        } else {
+          const errorData = await response.json();
+          showMessage(`Failed to update order status: ${errorData.message}`, 'error');
+        }
+      } catch (error) {
+        console.error('Error updating order status:', error);
+        showMessage('Failed to update order status. Please try again.', 'error');
+      }
+    };
+    
+    // Search orders
+    document.getElementById('search-btn').addEventListener('click', async () => {
+      const searchTerm = document.getElementById('search-input').value.trim();
+      if (!searchTerm) {
+        loadOrders();
+        return;
+      }
+      
+      // For simplicity, we'll just filter the existing orders on the client side
+      // In a real implementation, this would be a server-side search
+      try {
+        const response = await fetch('http://localhost:5000/api/orders/all', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const orders = await response.json();
+          const filteredOrders = orders.filter(order => 
+            order._id.toString().includes(searchTerm) ||
+            order.items.some(item => 
+              item.productId.name.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+          );
+          displayOrders(filteredOrders);
+        } else {
+          const errorData = await response.json();
+          showMessage(`Error searching orders: ${errorData.message}`, 'error');
+        }
+      } catch (error) {
+        console.error('Error searching orders:', error);
+        showMessage('Error searching orders. Please try again.', 'error');
+      }
+    });
+    
+    // Load orders when page loads
+    loadOrders();
+    
+    // Function to show messages to the user
+    function showMessage(message, type) {
+      // Create a message element
+      const messageElement = document.createElement('div');
+      messageElement.textContent = message;
+      messageElement.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+        z-index: 10000;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        ${type === 'success' ? 'background-color: #4CAF50;' : 
+          type === 'error' ? 'background-color: #f44336;' : 
+          type === 'info' ? 'background-color: #2196F3;' : 
+          'background-color: #FF9800;'}
+      `;
+      
+      // Add to document
+      document.body.appendChild(messageElement);
+      
+      // Remove after 3 seconds
+      setTimeout(() => {
+        if (messageElement.parentNode) {
+          messageElement.parentNode.removeChild(messageElement);
+        }
+      }, 3000);
+    }
+    
+    // Make functions available globally
+    window.showMessage = showMessage;
+  </script>
+</body>
+</html>

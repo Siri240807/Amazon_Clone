@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Clone - Product</title>
+  <link rel="stylesheet" href="Amazon_Clone.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+  <style>
+    .product-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    
+    .product-image-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .product-image {
+      width: 100%;
+      max-width: 500px;
+      height: 500px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .product-thumbnails {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .thumbnail {
+      width: 60px;
+      height: 60px;
+      background-size: cover;
+      background-position: center;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .thumbnail:hover {
+      border-color: #ff9900;
+    }
+    
+    .product-info {
+      padding: 20px;
+    }
+    
+    .product-title {
+      font-size: 24px;
+      font-weight: 400;
+      margin-bottom: 10px;
+      color: #0f1111;
+    }
+    
+    .product-rating {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .rating-stars {
+      color: #ffa41c;
+      margin-right: 10px;
+    }
+    
+    .rating-count {
+      color: #007185;
+      text-decoration: none;
+    }
+    
+    .rating-count:hover {
+      color: #c45500;
+      text-decoration: underline;
+    }
+    
+    .product-price {
+      font-size: 28px;
+      color: #b12704;
+      margin-bottom: 20px;
+    }
+    
+    .product-description {
+      color: #0f1111;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    
+    .product-details {
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+    
+    .detail-row {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    
+    .detail-label {
+      font-weight: bold;
+      width: 150px;
+    }
+    
+    .detail-value {
+      flex: 1;
+    }
+    
+    .buying-options {
+      background-color: #f3f3f3;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+    
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .quantity-label {
+      margin-right: 15px;
+      font-weight: bold;
+    }
+    
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+    }
+    
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .quantity-btn:hover {
+      background-color: #e6e6e6;
+    }
+    
+    .quantity-input {
+      width: 40px;
+      height: 30px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      margin: 0 5px;
+    }
+    
+    .add-to-cart-btn {
+      width: 100%;
+      background-color: #ffd814;
+      color: #0f1111;
+      border: none;
+      padding: 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      border: 1px solid #fcd200;
+    }
+    
+    .add-to-cart-btn:hover {
+      background-color: #f7ca00;
+    }
+    
+    .buy-now-btn {
+      width: 100%;
+      background-color: #ffa41c;
+      color: #0f1111;
+      border: none;
+      padding: 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      border: 1px solid #ff8f00;
+    }
+    
+    .buy-now-btn:hover {
+      background-color: #e7941c;
+    }
+    
+    .wishlist-btn {
+      width: 100%;
+      background-color: #fff;
+      color: #0f1111;
+      border: 1px solid #d5d9d9;
+      padding: 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .wishlist-btn:hover {
+      background-color: #f5f5f5;
+    }
+    
+    .wishlist-btn.added {
+      color: #e47911;
+    }
+    
+    .delivery-info {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    
+    .delivery-location {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .location-icon {
+      margin-right: 10px;
+      color: #007185;
+    }
+    
+    .location-text {
+      color: #007185;
+    }
+    
+    .location-text:hover {
+      color: #c45500;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    
+    .delivery-date {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .delivery-details {
+      color: #007600;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 768px) {
+      .product-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .product-image {
+        height: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-logo border">
+        <div class="logo" aria-label="Amazon Logo"></div>
+      </div>
+
+      <div class="nav-address border">
+        <p class="add-first">Deliver to</p>
+        <div class="add-icon">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          <p class="add-sec">India</p>
+        </div>
+      </div>
+
+      <form class="nav-search" role="search" id="search-form">
+        <select class="search-select" aria-label="Select Category">
+          <option>All</option>
+        </select>
+        <input type="text" placeholder="Search Amazon" class="search-input" id="search-input" aria-label="Search Amazon">
+        <button class="search-icon" aria-label="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+      <div class="nav-signin border">
+        <p><span>Hello, sign in</span></p>
+        <p class="nav-second">Account & Lists</p>
+      </div>
+
+      <div class="nav-return border">
+        <p><span>Returns</span></p>
+        <p class="nav-second">& Orders</p>
+      </div>
+
+      <a href="wishlist.html" class="nav-wishlist border" aria-label="Wishlist">
+        <i class="fa-solid fa-heart"></i>
+        <span class="wishlist-text">Wishlist</span>
+      </a>
+
+      <a href="cart.html" class="nav-cart border" aria-label="Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Cart
+      </a>
+    </nav>
+
+    <!-- Panel / Categories -->
+    <nav class="panel">
+      <button class="panel-all">
+        <i class="fa-solid fa-bars"></i> All
+      </button>
+      <ul class="panel-ops">
+        <li class="border">Today's Deals</li>
+        <li class="border">Customer Service</li>
+        <li class="border">Registry</li>
+        <li class="border">Gift Cards</li>
+        <li class="border">Sell</li>
+      </ul>
+      <div class="panel-deals border">Shop deals in Electronics</div>
+    </nav>
+  </header>
+
+  <main id="product-details">
+    <div class="product-container">
+      <div class="product-image-container">
+        <div class="product-image" id="main-image"></div>
+        <div class="product-thumbnails" id="thumbnails"></div>
+      </div>
+      
+      <div class="product-info">
+        <h1 class="product-title" id="product-title">Product Title</h1>
+        
+        <div class="product-rating">
+          <div class="rating-stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star-half-alt"></i>
+          </div>
+          <a href="#reviews" class="rating-count">4,521 ratings</a>
+        </div>
+        
+        <div class="product-price" id="product-price">$0.00</div>
+        
+        <div class="product-description" id="product-description">
+          Product description will appear here.
+        </div>
+        
+        <div class="product-details">
+          <div class="detail-row">
+            <div class="detail-label">Brand:</div>
+            <div class="detail-value" id="product-brand">Brand Name</div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Category:</div>
+            <div class="detail-value" id="product-category">Category</div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Item Weight:</div>
+            <div class="detail-value" id="product-weight">Weight</div>
+          </div>
+        </div>
+        
+        <div class="buying-options">
+          <div class="quantity-selector">
+            <span class="quantity-label">Quantity:</span>
+            <div class="quantity-controls">
+              <button class="quantity-btn decrease-btn">-</button>
+              <input type="number" class="quantity-input" id="quantity-input" value="1" min="1">
+              <button class="quantity-btn increase-btn">+</button>
+            </div>
+          </div>
+          
+          <button class="add-to-cart-btn" id="add-to-cart-btn">
+            <i class="fas fa-shopping-cart"></i> Add to Cart
+          </button>
+          
+          <button class="wishlist-btn" id="wishlist-btn">
+            <i class="fas fa-heart"></i> Add to Wishlist
+          </button>
+          
+          <button class="buy-now-btn" id="buy-now-btn">
+            <i class="fas fa-bolt"></i> Buy Now
+          </button>
+        </div>
+        
+        <div class="delivery-info">
+          <div class="delivery-location">
+            <i class="fas fa-map-marker-alt location-icon"></i>
+            <span class="location-text">Deliver to <strong>India</strong></span>
+          </div>
+          <div class="delivery-date">Tuesday, December 5</div>
+          <div class="delivery-details">Fastest delivery: Tomorrow</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="foot-panel1">Back to Top</div>
+
+    <div class="foot-panel2">
+      <ul>
+        <p>Get to Know Us</p>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">About Amazon</a></li>
+        <li><a href="#">Investor Relations</a></li>
+        <li><a href="#">Amazon Devices</a></li>
+        <li><a href="#">Amazon Science</a></li>
+      </ul>
+
+      <ul>
+        <p>Make Money with Us</p>
+        <li><a href="#">Sell products on Amazon</a></li>
+        <li><a href="#">Sell on Amazon Business</a></li>
+        <li><a href="#">Sell apps on Amazon</a></li>
+        <li><a href="#">Become an Affiliate</a></li>
+        <li><a href="#">Advertise Your Products</a></li>
+        <li><a href="#">Self-Publish with Us</a></li>
+        <li><a href="#">Host an Amazon Hub</a></li>
+        <li><a href="#">See More Make Money with Us</a></li>
+      </ul>
+
+      <ul>
+        <p>Amazon Payment Products</p>
+        <li><a href="#">Amazon Business Card</a></li>
+        <li><a href="#">Shop with Points</a></li>
+        <li><a href="#">Reload Your Balance</a></li>
+        <li><a href="#">Amazon Currency Converter</a></li>
+      </ul>
+
+      <ul>
+        <p>Let Us Help You</p>
+        <li><a href="#">Amazon and COVID-19</a></li>
+        <li><a href="#">Your Account</a></li>
+        <li><a href="#">Your Orders</a></li>
+        <li><a href="#">Shipping Rates & Policies</a></li>
+        <li><a href="#">Returns & Replacements</a></li>
+        <li><a href="#">Manage Your Content and Devices</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+
+    <div class="foot-panel3">
+      <div class="logo" aria-label="Amazon Logo"></div>
+    </div>
+
+    <div class="foot-panel4">
+      <div class="pages">
+        <a href="#">Conditions of Use</a>
+        <a href="#">Privacy Notice</a>
+        <a href="#">Consumer Health Data Privacy Disclosure</a>
+        <a href="#">Your Ads Privacy Choices</a>
+      </div>
+      <div class="copyright">
+        © 1996-2025, Amazon.com, Inc. or its affiliates
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { getProductById } from './api.js';
+    
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Redirect to login page
+      window.location.href = 'login.html';
+    }
+    
+    // Get category and product ID from URL
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category');
+    const productId = params.get('product');
+    
+    // Load product details
+    if (category && productId) {
+      loadProductDetails(productId);
+    }
+    
+    async function loadProductDetails(productId) {
+      try {
+        const product = await getProductById(productId);
+        if (product) {
+          // Update product details
+          document.getElementById('product-title').textContent = product.name;
+          document.getElementById('product-price').textContent = `$${product.price.toFixed(2)}`;
+          document.getElementById('product-description').textContent = product.description || 'No description available for this product.';
+          document.getElementById('product-category').textContent = product.category || 'N/A';
+          
+          // Set main image
+          const mainImage = document.getElementById('main-image');
+          mainImage.style.backgroundImage = `url('${product.imageUrl || 'images/default-product.jpg'}')`;
+          
+          // Set thumbnails (for now, just show the same image)
+          const thumbnailsContainer = document.getElementById('thumbnails');
+          thumbnailsContainer.innerHTML = `
+            <div class="thumbnail" style="background-image: url('${product.imageUrl || 'images/default-product.jpg'}');"></div>
+            <div class="thumbnail" style="background-image: url('${product.imageUrl || 'images/default-product.jpg'}');"></div>
+            <div class="thumbnail" style="background-image: url('${product.imageUrl || 'images/default-product.jpg'}');"></div>
+          `;
+          
+          // Add event listeners for thumbnails
+          const thumbnails = document.querySelectorAll('.thumbnail');
+          thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+              mainImage.style.backgroundImage = this.style.backgroundImage;
+            });
+          });
+          
+          // Check if product is in wishlist
+          async function checkWishlistStatus(productId) {
+            try {
+              const response = await fetch(`http://localhost:5000/api/wishlist/check/${productId}`, {
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json'
+                }
+              });
+              
+              if (response.ok) {
+                const data = await response.json();
+                const wishlistBtn = document.getElementById('wishlist-btn');
+                
+                if (data.inWishlist) {
+                  wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> Remove from Wishlist';
+                  wishlistBtn.classList.add('added');
+                } else {
+                  wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> Add to Wishlist';
+                  wishlistBtn.classList.remove('added');
+                }
+              }
+            } catch (error) {
+              console.error('Error checking wishlist status:', error);
+            }
+          }
+          
+          // Add to cart functionality
+          document.getElementById('add-to-cart-btn').addEventListener('click', async function() {
+            const quantity = parseInt(document.getElementById('quantity-input').value);
+            
+            try {
+              const response = await fetch('http://localhost:5000/api/cart/add', {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${token}`,
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 
+                  productId: product._id,
+                  quantity: quantity
+                })
+              });
+              
+              if (response.ok) {
+                alert('Product added to cart successfully!');
+              } else {
+                const errorData = await response.json();
+                alert(`Failed to add product to cart: ${errorData.message}`);
+              }
+            } catch (error) {
+              console.error('Error adding product to cart:', error);
+              alert('Failed to add product to cart. Please try again.');
+            }
+          });
+          
+          // Quantity controls
+          document.querySelector('.decrease-btn').addEventListener('click', function() {
+            const input = document.getElementById('quantity-input');
+            const currentValue = parseInt(input.value);
+            if (currentValue > 1) {
+              input.value = currentValue - 1;
+            }
+          });
+          
+          document.querySelector('.increase-btn').addEventListener('click', function() {
+            const input = document.getElementById('quantity-input');
+            const currentValue = parseInt(input.value);
+            input.value = currentValue + 1;
+          });
+          
+          // Buy now functionality
+          document.getElementById('buy-now-btn').addEventListener('click', function() {
+            alert('Buy Now functionality would be implemented here.');
+          });
+          
+          // Wishlist functionality
+          const wishlistBtn = document.getElementById('wishlist-btn');
+          if (wishlistBtn) {
+            // Check if product is already in wishlist
+            checkWishlistStatus(product._id);
+            
+            wishlistBtn.addEventListener('click', async function() {
+              try {
+                const response = await fetch('http://localhost:5000/api/wishlist/check/' + product._id, {
+                  headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                  }
+                });
+                
+                if (response.ok) {
+                  const data = await response.json();
+                  
+                  if (data.inWishlist) {
+                    // Remove from wishlist
+                    const removeResponse = await fetch('http://localhost:5000/api/wishlist/remove', {
+                      method: 'DELETE',
+                      headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ productId: product._id })
+                    });
+                    
+                    if (removeResponse.ok) {
+                      wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> Add to Wishlist';
+                      wishlistBtn.classList.remove('added');
+                    }
+                  } else {
+                    // Add to wishlist
+                    const addResponse = await fetch('http://localhost:5000/api/wishlist/add', {
+                      method: 'POST',
+                      headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ productId: product._id })
+                    });
+                    
+                    if (addResponse.ok) {
+                      wishlistBtn.innerHTML = '<i class="fas fa-heart"></i> Remove from Wishlist';
+                      wishlistBtn.classList.add('added');
+                    }
+                  }
+                }
+              } catch (error) {
+                console.error('Error updating wishlist:', error);
+                alert('Failed to update wishlist. Please try again.');
+              }
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load product details:', error);
+        document.getElementById('product-details').innerHTML = '<p style="text-align: center; padding: 50px;">Error loading product details. Please try again.</p>';
+      }
+    }
+  </script>
+
+  <!-- Include the navbar functionality script -->
+  <script type="module" src="navbar.js"></script>
+</body>
+</html>
